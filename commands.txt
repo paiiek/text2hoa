@@ -1,0 +1,16 @@
+# 8~12k 만들기 (예: 120/120 → ~4.8k, 두 번 생성 후 합치기)
+python make_dataset_v3_no_subject.py --ko_mult 120 --en_mult 120 --room_mode drr --out part1.jsonl
+python make_dataset_v3_no_subject.py --ko_mult 120 --en_mult 120 --room_mode drr --out part2.jsonl
+cat part1.jsonl part2.jsonl > text2spatial_v3_aug.jsonl
+
+# 분포 점검
+python check_dataset_coverage.py --data text2spatial_v3_aug.jsonl
+
+# 학습
+python train_minimal_v3_amp_dp.py --data text2spatial_v3_aug.jsonl \
+  --room_mode drr --epochs 30 --bsz 32 --accum 2 --lr 2e-5
+
+# 평가(+폴백)
+python eval_minimal_v3.py --data text2spatial_v3_aug.jsonl \
+  --room_mode drr --ckpt t2sa_minimal_v3.pt \
+  --train_embs t2sa_minimal_v3_train_embs.pt --knn_thresh 0.65

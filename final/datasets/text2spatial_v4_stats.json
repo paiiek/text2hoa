@@ -1,0 +1,34 @@
+{
+  "source": "/workspace/mmhoa/text2hoa/text2spatial_v3_rebalanced.jsonl",
+  "N": 1366,
+  "splits": {
+    "train": 1092,
+    "valid": 136,
+    "test": 138
+  },
+  "normalization": {
+    "log_dist": {
+      "mean": 0.7556080197026127,
+      "std": 0.6450725194473792
+    },
+    "gain_lin": {
+      "min": 0.3165920463432238,
+      "max": 0.9988493699365052
+    },
+    "width_scale_deg": 120.0,
+    "azimuth_scale": "az_sc * pi (rad)",
+    "elevation": "el_rad as-is (rad)",
+    "synth_delta": {
+      "elevation_rad": 0.35,
+      "width": 0.3
+    }
+  },
+  "medians_for_qc": {
+    "dist_m": 2.2190000000000003,
+    "spread_deg": 36.6
+  },
+  "lang_counts": {
+    "ko": 716,
+    "en": 650
+  }
+}

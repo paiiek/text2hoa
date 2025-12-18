@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+Method & AE↓ & d_log↓ & Spread MAE↓ & Wet MAE↓ & Gain MAE↓ & Room MAE↓ \\ \midrule
+rule_baseline & 71.01 & 0.26 & 19.98 & 0.18 & 2.91 & 3.03 \\
+rule_baseline & 71.01 & 0.26 & 19.98 & 0.18 & 2.91 & 3.03 \\
+linear(paraphrase-multilingual-MiniLM-L12-v2) & 61.80 & 0.26 & 16.81 & 0.17 & 1.03 & 2.01 \\
+linear(multilingual-e5-large) & 76.79 & 0.26 & 16.80 & 0.17 & 1.02 & 2.04 \\
+ours(t2sa_minilm_ft_clean_lastmile_ep6.pt) & 33.19 & 0.27 & 14.37 & 0.17 & 1.07 & 2.21 \\
+\bottomrule
+\caption{Overall metrics on full dataset.}
+\label{tab:baseline}
+\end{tabular}
+\end{table}

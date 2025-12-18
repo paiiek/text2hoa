@@ -1,0 +1,74 @@
+{
+  "N_test": 1566,
+  "AE": 34.7957649230957,
+  "dlog": 0.2605281472206116,
+  "spread_mae": 13.912787437438965,
+  "wet_mae": 0.17616666853427887,
+  "gain_mae": 1.0920488834381104,
+  "room_mae": 1.9749770164489746,
+  "per_az12_mean": [
+    21.087596893310547,
+    32.75566864013672,
+    42.35651397705078,
+    33.24541091918945,
+    47.95512390136719,
+    35.73114013671875,
+    36.8765983581543,
+    40.75538635253906,
+    36.7275276184082,
+    24.154233932495117,
+    34.39889144897461,
+    23.446725845336914
+  ],
+  "worst3_bins": [
+    4,
+    2,
+    7
+  ],
+  "lang_AE": {
+    "en": 32.7821421555404,
+    "ko": 35.98024769728856
+  },
+  "use_knn": true,
+  "knn": {
+    "k": 3,
+    "thresh": 0.58,
+    "alpha": 0.1,
+    "temp": 0.07,
+    "angle_gate": 20.0
+  },
+  "predbin_calib": {
+    "alpha": 0.25,
+    "gate": 10.0
+  },
+  "arc_align": {
+    "used": false,
+    "alpha": 0.15,
+    "temp": 1.7,
+    "entropy_gate": 1.5,
+    "gap_gate": 0.2
+  },
+  "text_priors": {
+    "used": true,
+    "near_push": 0.2,
+    "far_push": 0.2,
+    "wet_push": 0.1
+  },
+  "group_by_text": true,
+  "ckpt": "t2sa_minilm_ft_clean_lastmile_ep6.pt",
+  "enc_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "kw_consistency": {
+    "GT": {
+      "up%": 99.4,
+      "down%": 95.3,
+      "near%": 51.3,
+      "far%": 69.6
+    },
+    "PRED": {
+      "up%": 100.0,
+      "down%": 95.3,
+      "near%": 19.6,
+      "far%": 0.0
+    }
+  }
+}

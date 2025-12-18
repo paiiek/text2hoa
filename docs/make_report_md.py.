@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+# save as: make_report_md.py
+import json, glob, argparse
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--pattern", default="metrics_*.json")
+    ap.add_argument("--out_md", default="eval_report.md")
+    ap.add_argument("--out_csv", default="eval_report.csv")
+    args=ap.parse_args()
+
+    files=sorted(glob.glob(args.pattern))
+    rows=[]
+    for fp in files:
+        m=json.load(open(fp,encoding="utf-8"))
+        name=fp.replace("metrics_","").replace(".json","")
+        rows.append({
+            "name": name,
+            "AE": m["AE"], "dlog": m["dlog"], "spread": m["spread_mae"], "wet": m["wet_mae"], "gain": m["gain_mae"], "room": m["room_mae"],
+            "worst3": m["worst3_bins"], "use_knn": m["use_knn"],
+            "lang_ko": m.get("lang_AE",{}).get("ko", None),
+            "lang_en": m.get("lang_AE",{}).get("en", None),
+            "kw_up%": m["kw_consistency"]["elev_up_match_pct"],
+            "kw_dn%": m["kw_consistency"]["elev_down_match_pct"],
+            "kw_near%": m["kw_consistency"]["near_match_pct"],
+            "kw_far%": m["kw_consistency"]["far_match_pct"],
+        })
+
+    # MD
+    with open(args.out_md,"w",encoding="utf-8") as f:
+        f.write("| run | AE | dlog | spread | wet | gain | room | worst3 az12 | KNN | ko AE | en AE | up% | dn% | near% | far% |\n")
+        f.write("|---|---:|---:|---:|---:|---:|---:|---|:---:|---:|---:|---:|---:|---:|---:|\n")
+        for r in rows:
+            f.write(f"| {r['name']} | {r['AE']:.2f} | {r['dlog']:.3f} | {r['spread']:.2f} | {r['wet']:.3f} | {r['gain']:.2f} | {r['room']:.2f} | {r['worst3']} | {r['use_knn']} | {r['lang_ko'] if r['lang_ko'] else '-'} | {r['lang_en'] if r['lang_en'] else '-'} | {r['kw_up%']} | {r['kw_dn%']} | {r['kw_near%']} | {r['kw_far%']} |\n")
+
+    # CSV
+    with open(args.out_csv,"w",encoding="utf-8") as f:
+        f.write("name,AE,dlog,spread,wet,gain,room,worst3,knn,koAE,enAE,up%,dn%,near%,far%\n")
+        for r in rows:
+            f.write(f"{r['name']},{r['AE']:.4f},{r['dlog']:.4f},{r['spread']:.4f},{r['wet']:.4f},{r['gain']:.4f},{r['room']:.4f},\"{r['worst3']}\",{r['use_knn']},{r['lang_ko'] if r['lang_ko'] else ''},{r['lang_en'] if r['lang_en'] else ''},{r['kw_up%']},{r['kw_dn%']},{r['kw_near%']},{r['kw_far%']}\n")
+    print("wrote:", args.out_md, args.out_csv)
+
+if __name__=="__main__":
+    main()

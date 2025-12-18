@@ -1,0 +1,47 @@
+encoder: "intfloat/multilingual-e5-large"
+
+K: { pos: 16, fx: 8 }
+
+params:
+  # ---- Propagation/scene (✅ 즉시 반영) ----
+  - {name: dlaw,             kind: scalar_lin, K: fx, lo: 0.8, hi: 1.8}          # 1/r^dlaw
+  - {name: air_absorb_dbpm,  kind: scalar_lin, K: fx, lo: 0.0, hi: 0.6}          # dB/m @HF
+  - {name: occlusion,        kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}          # LP 성분
+
+  # ---- Source directivity (✅ 즉시 반영) ----
+  - {name: direct_alpha,     kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}
+  - {name: direct_focus_deg, kind: scalar_deg, K: fx, lo: -180.0, hi: 180.0}
+
+  # ---- Listener/head (✅ 즉시 반영: HOA 회전近似) ----
+  - {name: head_yaw_deg,   kind: scalar_deg, K: fx, lo: -90.0, hi: 90.0}
+  - {name: head_pitch_deg, kind: scalar_deg, K: fx, lo: -45.0, hi: 45.0}
+  - {name: head_roll_deg,  kind: scalar_deg, K: fx, lo: -30.0, hi: 30.0}
+
+  # ---- Doppler (✅ 간단 타임워프 반영) ----
+  - {name: doppler_depth,  kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}
+
+  # ---- Tonal/EQ/Comp (✅ 기존과 동일: 정적 적용) ----
+  - {name: eq_l_gain_db, kind: scalar_db,  K: fx, lo: -9.0, hi: 9.0}
+  - {name: eq_l_freq_hz, kind: scalar_lin, K: fx, lo: 80.0, hi: 300.0}
+  - {name: eq_h_gain_db, kind: scalar_db,  K: fx, lo: -9.0, hi: 9.0}
+  - {name: eq_h_freq_hz, kind: scalar_lin, K: fx, lo: 3000.0, hi: 12000.0}
+  - {name: eq_m_gain_db, kind: scalar_db,  K: fx, lo: -6.0, hi: 6.0}
+  - {name: eq_m_freq_hz, kind: scalar_lin, K: fx, lo: 400.0, hi: 2000.0}
+  - {name: eq_m_q,       kind: scalar_lin, K: fx, lo: 0.5,  hi: 2.0}
+  - {name: comp_thresh_db,  kind: scalar_db,  K: fx, lo: -30.0, hi: -6.0}
+  - {name: comp_ratio,      kind: scalar_lin, K: fx, lo: 1.5,  hi: 6.0}
+  - {name: comp_attack_ms,  kind: scalar_lin, K: fx, lo: 5.0,   hi: 40.0}
+  - {name: comp_release_ms, kind: scalar_lin, K: fx, lo: 60.0,  hi: 300.0}
+
+  # ---- Reverb/room (옵션: 추후 RIR 컨볼브시 활용) ----
+  - {name: rt60_s,     kind: scalar_lin, K: fx, lo: 0.2, hi: 3.0}
+  - {name: er_gain,    kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}
+  - {name: er_delay_ms,kind: scalar_lin, K: fx, lo: 5.0, hi: 80.0}
+
+  # ---- Binaural/HRTF 선택 (옵션: SOFA 쓸 때) ----
+  - {name: hrtf_sel,   kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}  # 여러 SOFA 중 보간용 index
+
+  - {name: rt60_s,     kind: scalar_lin, K: fx, lo: 0.2, hi: 2.5}
+  - {name: early_late, kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}
+  - {name: drr,        kind: scalar_lin, K: fx, lo: 0.0, hi: 1.0}
+

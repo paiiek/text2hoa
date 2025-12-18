@@ -1,0 +1,16 @@
+{
+  "dist_z": 0.7803020587956965,
+  "width_start": 0.14773115521107893,
+  "width_end": 0.15923147648572922,
+  "wet_norm": 0.14820497126682944,
+  "gain_norm": 0.19641387790603482,
+  "az_start_deg": 49.16319689748675,
+  "az_end_deg": 51.21232725928247,
+  "el_start_deg": 19.990325607464825,
+  "el_end_deg": 19.870607663142543,
+  "rows": 138,
+  "encoder": "xlm-roberta-base",
+  "lora_r": 8,
+  "dist_sigmoid": false,
+  "az_bins": 24
+}
