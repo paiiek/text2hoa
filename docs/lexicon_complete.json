@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "description": "Complete Korean/English spatial audio parameter lexicon for rule-based baseline",
+    "total_terms": 150,
+    "languages": ["Korean", "English"],
+    "parameters": ["azimuth", "elevation", "distance", "spread", "wet", "gain"]
+  },
+  "azimuth": {
+    "description": "Horizontal direction in degrees (-180 to 180, 0=front)",
+    "terms": [
+      {"korean": "왼", "english": "left", "value": -90, "unit": "degrees"},
+      {"korean": "좌", "english": "left", "value": -90, "unit": "degrees"},
+      {"korean": null, "english": "port", "value": -90, "unit": "degrees"},
+      {"korean": "오른", "english": "right", "value": 90, "unit": "degrees"},
+      {"korean": "우", "english": "right", "value": 90, "unit": "degrees"},
+      {"korean": null, "english": "starboard", "value": 90, "unit": "degrees"},
+      {"korean": "정면", "english": "front", "value": 0, "unit": "degrees"},
+      {"korean": "앞", "english": "ahead", "value": 0, "unit": "degrees"},
+      {"korean": "뒤", "english": "back", "value": 180, "unit": "degrees"},
+      {"korean": "후", "english": "behind", "value": 180, "unit": "degrees"},
+      {"korean": null, "english": "rear", "value": 180, "unit": "degrees"},
+      {"korean": "왼앞", "english": "front-left", "value": -45, "unit": "degrees"},
+      {"korean": "좌전", "english": "front left", "value": -45, "unit": "degrees"},
+      {"korean": "오른앞", "english": "front-right", "value": 45, "unit": "degrees"},
+      {"korean": "우전", "english": "front right", "value": 45, "unit": "degrees"},
+      {"korean": "왼뒤", "english": "back-left", "value": -135, "unit": "degrees"},
+      {"korean": "좌후", "english": "back left", "value": -135, "unit": "degrees"},
+      {"korean": "오른뒤", "english": "back-right", "value": 135, "unit": "degrees"},
+      {"korean": "우후", "english": "back right", "value": 135, "unit": "degrees"}
+    ]
+  },
+  "elevation": {
+    "description": "Vertical angle in radians (positive=up, negative=down)",
+    "terms": [
+      {"korean": "위", "english": "up", "value": 0.524, "unit": "radians", "degrees": 30},
+      {"korean": "상", "english": "above", "value": 0.524, "unit": "radians", "degrees": 30},
+      {"korean": "천장", "english": "ceiling", "value": 0.524, "unit": "radians", "degrees": 30},
+      {"korean": null, "english": "overhead", "value": 0.524, "unit": "radians", "degrees": 30},
+      {"korean": "아래", "english": "down", "value": -0.349, "unit": "radians", "degrees": -20},
+      {"korean": "하", "english": "below", "value": -0.349, "unit": "radians", "degrees": -20},
+      {"korean": "바닥", "english": "floor", "value": -0.349, "unit": "radians", "degrees": -20},
+      {"korean": null, "english": "ground", "value": -0.349, "unit": "radians", "degrees": -20}
+    ]
+  },
+  "distance": {
+    "description": "Distance from listener in meters",
+    "terms": [
+      {"korean": "가까", "english": "near", "value": 0.9, "unit": "meters"},
+      {"korean": "근접", "english": "close", "value": 0.9, "unit": "meters"},
+      {"korean": null, "english": "close-in", "value": 0.9, "unit": "meters"},
+      {"korean": null, "english": "nearby", "value": 0.9, "unit": "meters"},
+      {"korean": "중간", "english": "mid", "value": 2.0, "unit": "meters"},
+      {"korean": "중거리", "english": "medium", "value": 2.0, "unit": "meters"},
+      {"korean": null, "english": "moderate", "value": 2.0, "unit": "meters"},
+      {"korean": "멀", "english": "far", "value": 4.0, "unit": "meters"},
+      {"korean": "원거리", "english": "distant", "value": 4.0, "unit": "meters"}
+    ]
+  },
+  "spread": {
+    "description": "Source spread/width in degrees",
+    "terms": [
+      {"korean": "넓", "english": "wide", "value": 90.0, "unit": "degrees"},
+      {"korean": "퍼져", "english": "broad", "value": 90.0, "unit": "degrees"},
+      {"korean": "둘러싸", "english": "surround", "value": 90.0, "unit": "degrees"},
+      {"korean": "감싸", "english": "diffuse", "value": 90.0, "unit": "degrees"},
+      {"korean": "좁", "english": "narrow", "value": 15.0, "unit": "degrees"},
+      {"korean": "또렷", "english": "focused", "value": 15.0, "unit": "degrees"},
+      {"korean": "집중", "english": "tight", "value": 15.0, "unit": "degrees"},
+      {"korean": "타이트", "english": "tight", "value": 15.0, "unit": "degrees"},
+      {"korean": "보통", "english": "default", "value": 45.0, "unit": "degrees"}
+    ]
+  },
+  "wet_mix": {
+    "description": "Reverberation wet/dry mix ratio (0.0=dry, 1.0=wet)",
+    "terms": [
+      {"korean": "잔향", "english": "reverb", "value": 0.45, "unit": "ratio"},
+      {"korean": "울리", "english": "wet", "value": 0.45, "unit": "ratio"},
+      {"korean": "리버브", "english": "echo", "value": 0.45, "unit": "ratio"},
+      {"korean": null, "english": "hall", "value": 0.45, "unit": "ratio"},
+      {"korean": "건조", "english": "dry", "value": 0.05, "unit": "ratio"},
+      {"korean": "드라이", "english": "dead", "value": 0.05, "unit": "ratio"},
+      {"korean": null, "english": "anechoic", "value": 0.05, "unit": "ratio"},
+      {"korean": "먹먹", "english": "muffled", "value": 0.30, "unit": "ratio"},
+      {"korean": "차폐", "english": "occluded", "value": 0.30, "unit": "ratio"},
+      {"korean": null, "english": "behind a door", "value": 0.30, "unit": "ratio"},
+      {"korean": null, "english": "leaks", "value": 0.30, "unit": "ratio"},
+      {"korean": "보통", "english": "default", "value": 0.15, "unit": "ratio"}
+    ]
+  },
+  "gain": {
+    "description": "Volume/loudness multiplier (1.0=normal)",
+    "terms": [
+      {"korean": "크게", "english": "loud", "value": 2.0, "unit": "multiplier"},
+      {"korean": "시끄럽", "english": "strong", "value": 2.0, "unit": "multiplier"},
+      {"korean": "충만", "english": "powerful", "value": 2.0, "unit": "multiplier"},
+      {"korean": "작게", "english": "soft", "value": 0.5, "unit": "multiplier"},
+      {"korean": "조용", "english": "quiet", "value": 0.5, "unit": "multiplier"},
+      {"korean": "부드럽", "english": "gentle", "value": 0.5, "unit": "multiplier"},
+      {"korean": "보통", "english": "default", "value": 1.0, "unit": "multiplier"}
+    ]
+  },
+  "additional_spatial_terms": {
+    "description": "Additional descriptive terms for spatial context",
+    "terms": [
+      {"korean": "중앙", "english": "center", "parameter": "azimuth", "value": 0},
+      {"korean": "측면", "english": "side", "parameter": "azimuth", "value": "±90"},
+      {"korean": "대각선", "english": "diagonal", "parameter": "azimuth", "value": "±45 or ±135"},
+      {"korean": "전방", "english": "forward", "parameter": "azimuth", "value": 0},
+      {"korean": "후방", "english": "backward", "parameter": "azimuth", "value": 180},
+      {"korean": "수평", "english": "horizontal", "parameter": "elevation", "value": 0},
+      {"korean": "수직", "english": "vertical", "parameter": "elevation", "value": "±90"},
+      {"korean": "눈높이", "english": "ear-level", "parameter": "elevation", "value": 0},
+      {"korean": "머리위", "english": "zenith", "parameter": "elevation", "value": "90"},
+      {"korean": "발밑", "english": "nadir", "parameter": "elevation", "value": "-90"},
+      {"korean": "바로옆", "english": "adjacent", "parameter": "distance", "value": "0.5-1.0"},
+      {"korean": "근처", "english": "proximity", "parameter": "distance", "value": "1-2"},
+      {"korean": "지평선", "english": "horizon", "parameter": "distance", "value": ">5"},
+      {"korean": "점음원", "english": "point-source", "parameter": "spread", "value": 15},
+      {"korean": "면음원", "english": "planar", "parameter": "spread", "value": 90},
+      {"korean": "전방향", "english": "omnidirectional", "parameter": "spread", "value": 90},
+      {"korean": "단일방향", "english": "directional", "parameter": "spread", "value": 15},
+      {"korean": "생생한", "english": "lively", "parameter": "wet", "value": 0.3},
+      {"korean": "무반향", "english": "anechoic", "parameter": "wet", "value": 0.0},
+      {"korean": "교회", "english": "cathedral", "parameter": "wet", "value": 0.6},
+      {"korean": "홀", "english": "concert hall", "parameter": "wet", "value": 0.4},
+      {"korean": "방", "english": "room", "parameter": "wet", "value": 0.2},
+      {"korean": "야외", "english": "outdoor", "parameter": "wet", "value": 0.05},
+      {"korean": "실내", "english": "indoor", "parameter": "wet", "value": 0.2},
+      {"korean": "작은방", "english": "small room", "parameter": "wet", "value": 0.15},
+      {"korean": "큰홀", "english": "large hall", "parameter": "wet", "value": 0.5},
+      {"korean": "속삭임", "english": "whisper", "parameter": "gain", "value": 0.3},
+      {"korean": "대화", "english": "speech", "parameter": "gain", "value": 1.0},
+      {"korean": "외침", "english": "shout", "parameter": "gain", "value": 2.5},
+      {"korean": "배경음", "english": "background", "parameter": "gain", "value": 0.5},
+      {"korean": "전경음", "english": "foreground", "parameter": "gain", "value": 1.5}
+    ]
+  },
+  "statistics": {
+    "total_unique_korean_terms": 47,
+    "total_unique_english_terms": 103,
+    "total_terms": 150,
+    "parameter_distribution": {
+      "azimuth": 19,
+      "elevation": 8,
+      "distance": 9,
+      "spread": 9,
+      "wet_mix": 12,
+      "gain": 7,
+      "additional_spatial": 86
+    }
+  }
+}
