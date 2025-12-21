@@ -13,6 +13,31 @@ FINAL_*.md
 ICASSP_REVIEW_*.md
 verify_technical_claims.py
 
+# Experimental folders (not used in paper)
+v2/
+v3/
+archive/
+emotion/
+renderer/
+
+# Cache and temporary files
+cache/
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.pt
+!final/models/*.pt
+
+# Large experiment outputs
+*.wav
+*.mp3
+*.flac
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+
 # Keep only these documentation files:
 !README.md
 !README_IMPLEMENTATION.md
