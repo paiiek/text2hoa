@@ -8,7 +8,7 @@ This guide provides **step-by-step instructions** to reproduce the paper results
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 1. [Environment Setup](#1-environment-setup)
 2. [Dataset Preparation](#2-dataset-preparation)
@@ -624,7 +624,7 @@ python train_e2e_minilm_v5b_c2f_adamargin_focus_fixed2.py \
 
 ---
 
-## 🎯 Quick Reference
+## Quick Reference
 
 ### Reproduce Paper (Complete Pipeline)
 
@@ -655,7 +655,7 @@ python infer_render.py \
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Issue: CUDA Out of Memory
 
@@ -697,7 +697,7 @@ wget https://www.ece.ucdavis.edu/cipic/data/cipic.sofa
 
 ---
 
-## 📊 Expected Performance
+## Expected Performance
 
 | Metric | Paper Result | Expected Range |
 |--------|-------------|----------------|
@@ -712,7 +712,7 @@ wget https://www.ece.ucdavis.edu/cipic/data/cipic.sofa
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 - **Paper:** [ICASSP 2026 Proceedings - To be published]
 - **Demo:** https://paiiek.github.io/mmhoa-demo/
@@ -725,7 +725,7 @@ wget https://www.ece.ucdavis.edu/cipic/data/cipic.sofa
 
 ---
 
-## 📧 Support
+## Support
 
 For implementation questions:
 - **Email:** paiiek@snu.ac.kr
@@ -737,7 +737,7 @@ For paper-related questions:
 
 ---
 
-## ✅ Checklist: Paper Reproduction
+## Checklist: Paper Reproduction
 
 - [ ] Environment setup complete
 - [ ] Dependencies installed

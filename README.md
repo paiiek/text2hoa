@@ -5,12 +5,24 @@ This repository contains the implementation for the ICASSP 2026 paper:
 
 Authors: Seungryeol Paik, Kyogu Lee
 Affiliation: Seoul National University
-
 Demo page: https://paiiek.github.io/mmhoa-demo/
 
 ---
 
-## 📁 Repository Structure
+## Overview
+
+This work presents a lightweight regression model that maps natural language descriptions to spatial audio parameters (azimuth, elevation, distance, spread, reverberation, gain). The model supports Korean and English inputs and achieves 33.2° angular error on out-of-distribution test sets.
+
+Key features:
+- Multilingual sentence encoder (MiniLM-L12-v2) with BitFit fine-tuning
+- Angular-margin loss with adaptive per-bin adjustment
+- Deterministic parameter-based evaluation (renderer-agnostic)
+- Cross-HRTF robustness validation
+- DAW integration via OSC protocol
+
+---
+
+## Repository Structure
 
 ```
 text2hoa/
@@ -26,51 +38,42 @@ text2hoa/
 │   │   ├── text2spatial_v4_test.jsonl
 │   │   └── tiny.jsonl          # Small test set
 │   └── configs/                # Training and inference scripts
-│       ├── train_e2e_minilm_v5b_c2f_adamargin_focus_fixed2.py  # Main training
-│       ├── train_e2e_e5small_v3_align.py                        # E5 training
-│       ├── eval_lastmile_v4.py                                  # Evaluation
-│       ├── infer_text2spatial_api.py                            # Inference API
-│       ├── infer_render.py                                      # Rendering pipeline
-│       └── data.py                                              # Data processing
+│       ├── train_e2e_minilm_v5b_c2f_adamargin_focus_fixed2.py
+│       ├── eval_lastmile_v4.py
+│       ├── infer_text2spatial_api.py
+│       └── data.py
 ├── utils/                      # Utility scripts
-│   ├── check_dataset_coverage.py         # Dataset statistics
-│   ├── make_dataset_v3_no_subject.py     # Dataset generation
-│   ├── augment_text_v3_labelaware.py     # Text augmentation
-│   ├── make_ood_textset_v1.py            # OOD test set creation
-│   ├── eval_ood_textset.py               # OOD evaluation
-│   ├── eval_hrtf_robustness.py           # Cross-HRTF testing
+│   ├── baseline_rulelex_eval.py          # Rule-based baseline (150-term lexicon)
 │   ├── bakeoff_encoders_v1_fix.py        # Encoder comparison
-│   ├── baseline_rulelex_eval.py          # Rule-based baseline
-│   ├── gen_fig_*.py                      # Figure generation
+│   ├── eval_hrtf_robustness.py           # Cross-HRTF testing
+│   ├── eval_ood_textset.py               # OOD evaluation
 │   └── make_icassp_tables.py             # Paper tables
+├── docs/                       # Results and documentation
+│   ├── lexicon_complete.json   # 150-term spatial audio lexicon (KO/EN)
+│   └── results/                # Evaluation metrics (JSON/CSV)
 ├── renderer/                   # Spatial audio rendering backend
-│   ├── hrtf/kemar.sofa         # HRTF data (KEMAR)
-│   └── mos_questions_*/        # MOS listening test stimuli
-├── v2/                         # Improved pipeline (LoRA experiments)
-├── v3/                         # Latest experiments
-├── emotion/                    # Emotion-based spatial audio
-├── archive/                    # Historical experiments (not for production)
-│   ├── intermediate_models/    # Old checkpoints
-│   ├── intermediate_datasets/  # Dataset versions
-│   ├── intermediate_scripts/   # Training variants
-│   └── old_eval/               # Previous evaluation scripts
-├── cache_*.pt                  # Pre-computed text embeddings
-├── metrics_*.json              # Evaluation results
-├── commands.txt                # Example commands
-└── text2spatial_v4_stats.json  # Dataset normalization stats
+│   └── hrtf/kemar.sofa         # HRTF data (KEMAR)
+└── v2/, v3/, archive/          # Experimental variants
 ```
 
 ---
 
-## 🚀 Quick Start
-
-### 1. **Installation**
+## Installation
 
 ```bash
 pip install torch transformers sofa-tools librosa soundfile pydub
 ```
 
-### 2. **Inference**
+Requirements:
+- Python 3.8+
+- PyTorch 2.0+
+- Transformers 4.30+
+
+---
+
+## Quick Start
+
+### Inference
 
 ```bash
 cd final/configs
@@ -86,7 +89,20 @@ python infer_text2spatial_api.py \
   --text "앞오른쪽에서 빠르게 스쳐가" "approaches between right and back, softly"
 ```
 
-### 3. **Rendering**
+Output format:
+```json
+{
+  "azimuth_deg": 45.2,
+  "elevation_deg": 0.0,
+  "distance_m": 1.8,
+  "spread_deg": 22.5,
+  "wet_mix": 0.18,
+  "gain_db": -3.2,
+  "room_drr_db": 8.5
+}
+```
+
+### Rendering
 
 ```bash
 # Binaural rendering with HRTF
@@ -99,28 +115,29 @@ python infer_render.py \
 
 ---
 
-## 📊 Dataset
+## Dataset
 
-**Total samples:** 17,151 (after augmentation)
-- **Train:** 15,000
-- **Validation:** 1,700
-- **Languages:** Korean (59%), English (41%)
+Total samples: 17,151 (after augmentation)
+- Train: 15,000
+- Validation: 1,700
+- Test: 451 (OOD)
+- Languages: Korean (59%), English (41%)
 
-**Spatial parameters:**
-- Azimuth (sin/cos representation)
-- Elevation (radians, ±60°)
-- Distance (0.6–6.0 m, log-scaled)
-- Spread (5–120°)
-- Reverberation (wet mix, 0–1)
-- Gain (dB)
-- Room descriptor (DRR or RT60)
+Spatial parameters:
+- Azimuth: sin/cos representation (360°)
+- Elevation: radians (±60°)
+- Distance: 0.6–6.0 m (log-scaled)
+- Spread: 5–120°
+- Reverberation: wet mix (0–1)
+- Gain: dB
+- Room: DRR or RT60
 
-**Data format (JSONL):**
+Data format (JSONL):
 ```json
 {
   "text": "오른쪽 앞에서 조금씩 선명해져",
   "lang": "ko",
-  "az_sc": [1.0, 0.0],
+  "az_sc": [0.707, 0.707],
   "el_rad": 0.0,
   "dist_m": 1.217,
   "spread_deg": 18.2,
@@ -132,20 +149,20 @@ python infer_render.py \
 
 ---
 
-## 🎯 Model Architecture
+## Model Architecture
 
-**Encoder:** `paraphrase-multilingual-MiniLM-L12-v2`
+Encoder: `paraphrase-multilingual-MiniLM-L12-v2`
 - Fine-tuned with BitFit (bias + LayerNorm only)
 - Last 2 layers unfrozen
 
-**Regression Head:**
+Regression Head:
 ```
 Linear(384 → 768) → ReLU → Dropout(0.1)
 → Linear(768 → 384) → ReLU
 → Linear(384 → 8)  # [sin(az), cos(az), el, dist, spread, wet, gain, room]
 ```
 
-**Training objectives:**
+Training objectives:
 1. Angular-margin loss (ArcFace for 12-bin azimuth classification)
 2. MAE for continuous parameters (elevation, distance, spread, wet, gain, room)
 3. Adaptive margins (per-bin adjustment based on validation error)
@@ -154,37 +171,40 @@ Linear(384 → 768) → ReLU → Dropout(0.1)
 
 ---
 
-## 📈 Results
+## Results
 
-**Main paper results (33.2° angular error):**
-- Model: `t2sa_e2e_minilm_stage4f_lastmilefocus.pt`
-- Dataset: `text2spatial_v4_train.jsonl`
-- Encoder: MiniLM-L12-v2
+Main paper results (test set):
+- Angular Error: 33.2°
+- Distance MAE: 0.264 (log-scale)
+- Spread MAE: 13.9°
+- Wet MAE: 0.176
+- Gain MAE: 1.09 dB
 
-**Ablation study:**
+Ablation study:
 | Configuration | Angular Error (°) |
 |--------------|------------------|
-| Full model | **33.2** |
-| -- Angular-margin | 41.0 |
-| -- Adaptive margins | 38.7 |
-| -- Directional focus | 36.8 |
-| -- KNN adjustment | 37.5 |
+| Full model | 33.2 |
+| w/o Angular-margin | 41.0 |
+| w/o Adaptive margins | 38.7 |
+| w/o Directional focus | 36.8 |
+| w/o KNN adjustment | 37.5 |
 | E5 encoder | 38.2 |
 
-**Baselines:**
-- Rule-based (keyword matching): 71.0°
+Baselines:
+- Rule-based (150-term lexicon): 71.0°
 - Linear (SBERT): 61.8°
 - Linear (E5): 76.8°
+- Diff-SAGe (ICASSP 2025): ~38° (waveform-based generative model)
 
-**MOS (25 participants):**
-- Overall preference: 4.02 ± 0.64 (5-point scale)
+MOS evaluation (25 participants, 5-point scale):
+- Overall preference: 4.02 ± 0.64
 - Localization clarity: 4.28 ± 0.60
-- Text–spatial fit: 4.12 ± 0.63
+- Text-spatial fit: 4.12 ± 0.63
 - Naturalness: 3.96 ± 0.64
 
 ---
 
-## 🔬 Evaluation
+## Evaluation
 
 ```bash
 cd final/configs
@@ -207,7 +227,7 @@ python eval_hrtf_robustness.py \
 
 ---
 
-## 📝 Training
+## Training
 
 ```bash
 cd final/configs
@@ -224,21 +244,36 @@ python train_e2e_e5small_v3_align.py \
   --epochs 28 --bsz 128 --bitfit --unfreeze_last_n 2
 ```
 
----
-
-## 🎨 Rendering Backend
-
-The deterministic renderer supports:
-- **Stereo panning** (intensity-based)
-- **Binaural** (HRTF convolution with SOFA datasets)
-- **First-Order Ambisonics (FOA)** (B-format output)
-
-**OSC Export:**
-Parameters can be streamed to SpatRevolution or other DAWs via OSC.
+Training time:
+- Single V100 GPU: ~4 hours (16 epochs)
+- Batch size 96 with gradient accumulation
 
 ---
 
-## 📚 Citation
+## Rendering Backend
+
+Supported formats:
+- Stereo panning (intensity-based)
+- Binaural (HRTF convolution with SOFA datasets)
+- First-Order Ambisonics (B-format output)
+
+OSC Export:
+Parameters can be streamed to SpatRevolution or other DAWs via OSC protocol for real-time control.
+
+---
+
+## Reproducibility
+
+All results in the paper can be reproduced using:
+- Model: `final/models/t2sa_e2e_minilm_stage4f_lastmilefocus.pt`
+- Dataset: `final/datasets/text2spatial_v4_test.jsonl`
+- Evaluation: `final/configs/eval_lastmile_v4.py`
+
+Random seeds are fixed in training scripts for deterministic results.
+
+---
+
+## Citation
 
 ```bibtex
 @inproceedings{paik2026text2spatial,
@@ -251,42 +286,31 @@ Parameters can be streamed to SpatRevolution or other DAWs via OSC.
 
 ---
 
-## 🛠️ Folder Contents Summary
+## Links
 
-- **`final/`**: Production code, models, and datasets
-- **`utils/`**: Helper scripts for data processing, evaluation, and figure generation
-- **`renderer/`**: Spatial audio rendering engine and MOS test stimuli
-- **`v2/`, `v3/`**: Experimental pipelines (LoRA, multi-task learning)
-- **`emotion/`**: Emotion-conditioned spatial audio
-- **`archive/`**: Historical experiments (not recommended for reproduction)
-
----
-
-## 🔗 Links
-
-- **Demo page:** https://paiiek.github.io/mmhoa-demo/
-- **Paper:** [To be added after publication]
-- **HRTF datasets:**
+- Demo page: https://paiiek.github.io/mmhoa-demo/
+- Paper: [To be added after publication]
+- HRTF datasets:
   - CIPIC: https://www.ece.ucdavis.edu/cipic/spatial-sound/hrtf-data/
   - KEMAR: https://sound.media.mit.edu/resources/KEMAR.html
 
 ---
 
-## 📧 Contact
+## Contact
 
 For questions or collaboration:
-- **Seungryeol Paik:** paiiek@snu.ac.kr
-- **Kyogu Lee:** kglee@snu.ac.kr
+- Seungryeol Paik: paiiek@snu.ac.kr
+- Kyogu Lee: kglee@snu.ac.kr
 
 ---
 
-## ⚖️ License
+## License
 
 This code is released for academic research purposes. Commercial use requires permission from the authors.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - HRTF datasets: CIPIC, KEMAR (MIT Media Lab)
 - Pre-trained encoders: Sentence-Transformers, E5 (Microsoft)
