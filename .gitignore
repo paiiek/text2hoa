@@ -1,94 +1,18 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Rebuttal and review analysis documents (LLM-generated, not for public repo)
+REBUTTAL_*.md
+REVIEW_*.md
+ANALYSIS_*.md
+COVERAGE_*.md
+TMI_*.md
+COMPARISON_*.md
+DEVIL_*.md
+PACKAGE_*.md
+PRE_SUBMISSION_*.md
+CONTRIBUTION_*.md
+FINAL_*.md
+ICASSP_REVIEW_*.md
+verify_technical_claims.py
 
-# Virtual environments
-.venv/
-venv/
-ENV/
-env/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb_checkpoints
-
-# Large model files (use Git LFS or external hosting)
-*.pt
-!final/models/.gitkeep
-
-# Cache files
-cache/
-*.cache
-
-# Archives (too large for GitHub)
-archive/
-
-# Renderer outputs (generated files)
-renderer/demo_out_*/
-renderer/checkpoint/
-renderer/eval/
-renderer/train/
-renderer/ir_cache/
-renderer/.git/
-
-# Experimental folders (optional, uncomment if too large)
-v2/icassp_run*/
-v2/sanity_*/
-# v2/
-# v3/
-
-# Logs
-*.log
-logs/
-wandb/
-
-# Temporary files
-*.tmp
-*.temp
-tmp/
-temp/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Data (if too large)
-# *.jsonl
-# *.json
-
-# Large results
-*.wav
-*.mp3
-*.flac
-renderer/mos_questions_*/
-
-# Keep structure but ignore content in some folders
-archive/*
-!archive/.gitkeep
+# Keep only these documentation files:
+!README.md
+!README_IMPLEMENTATION.md
